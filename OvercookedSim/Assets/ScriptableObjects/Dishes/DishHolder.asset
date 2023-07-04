@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1664dc050179b6943ba2a26b9da542b9, type: 3}
+  m_Name: DishHolder
+  m_EditorClassIdentifier: 
+  availableDishes:
+  - name: Purgatorio eggs
+    ingredients:
+    - {fileID: 11400000, guid: f2b776f3e19108c439e6fcf9f32365ad, type: 2}
+    - {fileID: 11400000, guid: f2b776f3e19108c439e6fcf9f32365ad, type: 2}
+    - {fileID: 11400000, guid: b9224426a22c8a948b310ee878cd4da6, type: 2}
+    completionTime: 3
+  - name: Tomato fried chicken
+    ingredients:
+    - {fileID: 11400000, guid: b9224426a22c8a948b310ee878cd4da6, type: 2}
+    - {fileID: 11400000, guid: f2b776f3e19108c439e6fcf9f32365ad, type: 2}
+    - {fileID: 11400000, guid: 98c049df2fda0234aa240814e8b0fd06, type: 2}
+    completionTime: 6
+  - name: Chicken nuggets
+    ingredients:
+    - {fileID: 11400000, guid: 98c049df2fda0234aa240814e8b0fd06, type: 2}
+    - {fileID: 11400000, guid: 98c049df2fda0234aa240814e8b0fd06, type: 2}
+    - {fileID: 11400000, guid: f2b776f3e19108c439e6fcf9f32365ad, type: 2}
+    completionTime: 4.5
+  nullIngredient: {fileID: 21300000, guid: 0525793900d728a42936791a8a6de63b, type: 3}
