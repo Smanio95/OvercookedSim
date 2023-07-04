@@ -23,7 +23,7 @@ public class Clock : MonoBehaviour
     {
         elapsed = clockInfo.openingHour - clockInfo.resetTimer;
 
-        BuildOPHoursTxt();
+        clockOPHours.text = clockInfo.BuildOPHoursTxt();
 
         OpenRestaurant();
     }
@@ -47,7 +47,7 @@ public class Clock : MonoBehaviour
 
         hour %= 24;
 
-        (string hourStr, string centsStr) = BuildHourStrings(hour, cents);
+        (string hourStr, string centsStr) = clockInfo.BuildHourStrings(hour, cents);
 
         clockText.text = hourStr + clockInfo.splitStr + centsStr;
     }
@@ -85,50 +85,12 @@ public class Clock : MonoBehaviour
             yield return null;
         }
 
-        if(finalAlpha == 1)
+        if (finalAlpha == 1)
         {
             yield return new WaitForSeconds(clockInfo.restTimer);
             clockText.color = clockInfo.defaultHourColor;
             Start();
         }
 
-    }
-
-    void BuildOPHoursTxt()
-    {
-        bool isOpening = true;
-        string copyTxt = "";
-        (string hourStr, string centsStr) = BuildHourStrings((int)clockInfo.openingHour, (int)(clockInfo.openingHour % 1));
-
-        foreach (char c in clockInfo.opHoursTxt)
-        {
-            if(c == '%')
-            {
-                if (isOpening)
-                {
-                    isOpening = false;
-                }
-                else
-                {
-                    (hourStr,centsStr) = BuildHourStrings((int)clockInfo.closingHour, (int)(clockInfo.closingHour % 1));
-                }
-                copyTxt += $"{hourStr}:{centsStr}";
-            }
-            else
-            {
-                copyTxt += c;
-            }
-        }
-
-        clockOPHours.text = copyTxt;
-    }
-
-    (string hourStr, string centsStr) BuildHourStrings(int hour, int cents)
-    {
-        string centsStr = cents < 10 ? $"0{cents}" : $"{cents}";
-
-        string hourStr = hour < 10 ? $"0{hour}" : $"{hour}";
-
-        return (hourStr, centsStr);
     }
 }
