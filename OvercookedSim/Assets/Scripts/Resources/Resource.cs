@@ -11,6 +11,8 @@ public class Resource : VisualizableResource
     [SerializeField] int maxResource = 5;
     [SerializeField] int actualResource;
 
+    public delegate void IngredientRetrieved();
+    public static IngredientRetrieved OnIngredientRetrieved;
 
     protected override void Start()
     {
@@ -27,6 +29,8 @@ public class Resource : VisualizableResource
     public IngredientType AskIngredient()
     {
         if (actualResource == 0) return IngredientType.None;
+
+        OnIngredientRetrieved?.Invoke();
 
         actualResource--;
         ChangeAvailability();

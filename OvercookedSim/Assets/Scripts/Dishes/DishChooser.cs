@@ -4,12 +4,21 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+[System.Serializable]
+public struct IngredientsRetrieval
+{
+    public Image[] ingredientsRetrieved;
+    public Sprite retrievedSprite;
+    public Sprite notRetrievedSprite;
+}
+
 public class DishChooser : MonoBehaviour
 {
     [Header("Refs")]
     [SerializeField] TMP_Text stringHolder;
     [SerializeField] TMP_Text completedDishesTxt;
     [SerializeField] Image[] ingredientsVisualization;
+    [SerializeField] IngredientsRetrieval retrieval;
     [SerializeField] ScriptableDish dishes;
     [Header("Stats")]
     [SerializeField] DishChooserStats statInfo;
@@ -17,6 +26,8 @@ public class DishChooser : MonoBehaviour
     [HideInInspector] public bool dishChosen = false;
 
     private int completedDishes = 0;
+    private int retrievedCounter = 0;
+
     private Dish chosenDish;
     public Dish ChosenDish { get => chosenDish; }
 
@@ -24,6 +35,7 @@ public class DishChooser : MonoBehaviour
     {
         WorkStationLeaf.OnStartWork += StartWork;
         WorkStationLeaf.OnDishCompleted += RestartDish;
+        Resource.OnIngredientRetrieved += IngredientRetrieved;
         Clock.OnClosing += ResetDish;
     }
 
@@ -42,27 +54,41 @@ public class DishChooser : MonoBehaviour
     {
         WorkStationLeaf.OnStartWork -= StartWork;
         WorkStationLeaf.OnDishCompleted -= RestartDish;
+        Resource.OnIngredientRetrieved -= IngredientRetrieved;
         Clock.OnClosing += ResetDish;
+    }
+
+    void IngredientRetrieved()
+    {
+        retrieval.ingredientsRetrieved[retrievedCounter].sprite = retrieval.retrievedSprite;
+        retrievedCounter++;
     }
 
     void ResetDish()
     {
         StopAllCoroutines();
         stringHolder.text = "- - -";
-        foreach (Image img in ingredientsVisualization)
-        {
-            img.sprite = dishes.nullIngredient;
-        }
+
+        ResetDishUI();
     }
 
     Dish ChooseDish()
     {
         stringHolder.text = statInfo.choosingDishString;
-        foreach(Image img in ingredientsVisualization)
-        {
-            img.sprite = dishes.nullIngredient;
-        }
+
+        ResetDishUI();
+
         return dishes.GetDish();
+    }
+
+    void ResetDishUI()
+    {
+        for (int i = 0; i < ingredientsVisualization.Length; i++)
+        {
+            ingredientsVisualization[i].sprite = dishes.nullIngredient;
+            retrieval.ingredientsRetrieved[i].sprite = retrieval.notRetrievedSprite;
+        }
+        retrievedCounter = 0;
     }
 
     void VisualizeDish(Dish chosenDish)
